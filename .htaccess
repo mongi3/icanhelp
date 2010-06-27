@@ -1,0 +1,18 @@
+
+#Options -MultiViews
+
+#SetHandler cgi-script
+#Options +ExecCGI
+AddHandler cgi-script .py
+#AddHandler text/css   .css
+
+RewriteEngine on
+RewriteBase /icanhelp/
+RewriteCond %{REQUEST_URI} !^/icons
+RewriteCond %{REQUEST_URI} !^/static
+RewriteCond %{REQUEST_URI} !^/icanhelp/static
+RewriteCond %{REQUEST_URI} !^/favicon.ico$
+RewriteCond %{REQUEST_URI} !^/(.*)code.py
+RewriteRule ^(.*)$ code.py/$1 [PT]
+
+

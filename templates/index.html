@@ -1,0 +1,65 @@
+$def with (posts)
+$ admin = session.admin
+
+$# breadcrum = 
+<ul id="breadcrumb">
+	<li>Home</li>
+</ul>
+
+
+<div id="page">
+	<div id="content">
+		<div class="post">
+			<h1 class="title">Welcome</h1>
+			<div class="entry">
+				<p>This website was setup to assist in helping individuals who 
+				are in need.  While not all help requests will be placed
+				on the website, it is intended many of them be placed here so those
+				who can provide assistance will be able to easily understand
+				where there is need and what they can do to help.</p>
+				<p>Want to help?  Take a look at the help requests listed below.</p>
+			</div>
+		</div>
+		<div class="post">
+
+			<h2 class="title">Help Requests</h2>
+			<p class="byline"><small>Listed newest to oldest</small></p>
+			<div class="entry">
+                <ul>
+                $for post in posts:
+                    $if post.active or admin:
+                        $ postClass = ''
+                        $if not post.active:
+                            $ postClass = 'inactive'
+                        <li class="$postClass"><a href="${URL_BASE}view/$post.id">$post.title</a> </li>
+                </ul>
+			</div>
+		</div>
+	</div>
+	<!-- end #content -->
+
+$if admin:
+	<div id="sidebar">
+        <div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
+			<ul>
+				<li>
+					<h2>Admin Menu</h2>
+                    <ul>
+                        <li><a href="${URL_BASE}new">New Help Request</a></li>
+                        <li><a href="${URL_BASE}newadmin">Add New Admin</a></li>
+                        <li><a href="${URL_BASE}logout">Logout</a></li>
+                    </ul>
+				</li>
+			</ul>
+		</div>
+		<div id="sidebar-bgbtm"></div>
+	</div>
+	<!-- end #sidebar -->
+</div>
+<!-- end #page -->
+
+
+
+    
+

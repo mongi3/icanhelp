@@ -1,0 +1,22 @@
+$def with (title, message, link)
+
+<ul id="breadcrumb">
+	<li><a href="${URL_BASE}" title="Home"><img src="${URL_BASE}static/images/home.gif" alt="Home" class="home" /></a></li>
+	<li>Error</li>
+</ul>
+
+<div id="page">
+	<div id="content">
+		<div class="post">
+			<h2 class="title">$title</h2>
+			<div class="entry">
+                <p>$message</p>
+                $if link != None:
+                    <a href="${URL_BASE}$link">Click to Continue</a>
+			</div>
+		</div>
+	</div>
+	<!-- end #content -->
+</div>
+<!-- end #page -->
+

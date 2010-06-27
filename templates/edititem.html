@@ -1,0 +1,24 @@
+$def with (post, item, form)
+
+<ul id="breadcrumb">
+	<li><a href="${URL_BASE}" title="Home"><img src="${URL_BASE}static/images/home.gif" alt="Home" class="home" /></a></li>
+	<li><a href="${URL_BASE}view/$post.id" title="$post.title">$post.title</a></li>
+	<li>Edit Help Item</li>
+</ul>
+
+<div id="page">
+	<div id="content">
+		<div class="post">
+			<h2 class="title">Edit Help Item</h2>
+			<div class="entry">
+                <form action="" method="post">
+                    <input type="hidden" value="$item.id"/>
+                $:form.render()
+                </form>
+			</div>
+		</div>
+	</div>
+	<!-- end #content -->
+</div>
+<!-- end #page -->
+
