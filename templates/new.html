@@ -1,0 +1,22 @@
+$def with (form)
+
+<ul id="breadcrumb">
+	<li><a href="${URL_BASE}" title="Home"><img src="${URL_BASE}static/images/home.gif" alt="Home" class="home" /></a></li>
+	<li>New Help Request</li>
+</ul>
+
+<div id="page">
+	<div id="content">
+		<div class="post">
+			<h2 class="title">New Help Request</h2>
+			<div class="entry">
+                <form action="" method="post">
+                $:form.render()
+                </form>
+			</div>
+		</div>
+	</div>
+	<!-- end #content -->
+</div>
+<!-- end #page -->
+

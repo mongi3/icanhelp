@@ -1,0 +1,110 @@
+$def with (request,items,contact)
+$ admin = session.admin
+$ help_request_filled = True # this will get set to false later if an item is still open
+
+
+<ul id="breadcrumb">
+	<li><a href="${URL_BASE}" title="Home"><img src="${URL_BASE}static/images/home.gif" alt="Home" class="home" /></a></li>
+	<li>$request.title</li>
+</ul>
+
+<div id="page">
+	<div id="content">
+		<div class="post">
+			<h2 class="title">$request.title</h2>
+			<div class="entry">
+                <p>$:request.details</p>
+                <br/>
+                <br/>
+
+                $if admin:
+                   <TABLE class="helpTable">
+                       <thead>
+                           <TR>
+                              <TH></TH>
+                              <TH>Date</TH>
+                              <TH>Description</TH>
+                              <TH>Helper Name</TH>
+                              <TH>Email</TH>
+                              <TH>Phone</TH>
+                              <TH></TH>
+                           </TR>
+                       </thead>
+                       <tbody>
+                        $for item in items:
+                            $ rowClass = ''
+                            $if utils.date_in_past(item.date):
+                                $ rowClass = 'inactive'
+                            <TR class="$rowClass">
+                              <TD><a href="${URL_BASE}edititem/$item.id">(edit)</a></TD>
+                              <TD>$utils.convert_date(item.date)</TD>
+                              <TD>$item.description</TD>
+                              <TD>$item.helpName</TD>
+                              <TD>$item.helpEmail</TD>
+                              <TD>$item.helpPhone</TD>
+                              <TD><a href="${URL_BASE}deleteitem/$item.id">(delete)</a></TD>
+                              $if not item.helpName:
+                                  $ help_request_filled = False
+                            </TR>
+                       </tbody>
+                   </TABLE>
+                   <br/>
+                   <a href="${URL_BASE}newitem/$request.id">Add new item</a><br/>
+                $else:
+                   <TABLE class="helpTable">
+                       <thead>
+                           <TR>
+                              <TH>Date</TH>
+                              <TH>Description</TH>
+                              <TH>Status</TH>
+                           </TR>
+                       </thead>
+                       <tbody>
+                            $for item in items:
+                                $if not utils.date_in_past(item.date):
+                                   <TR>
+                                      <TD>$utils.convert_date(item.date)</TD>
+                                      <TD>$item.description</TD>
+                                      $if item.helpName:
+                                          <TD>Help provided</TD>
+                                      $else:
+                                          $ help_request_filled = False
+                                          <TD><a href="${URL_BASE}helpsignup/$item.id">Click here to Help</a></TD>
+                                   </TR>
+                       </tbody>
+                   </TABLE>
+
+                <BR/>
+                $if help_request_filled:
+                    <h3>All items have been provided for at this time</h3>
+                <BR/>
+
+                If you have any further questions, please contact: $contact.name<br/>
+                <br/>
+                <a href="${URL_BASE}">See other help requests &gt;&gt;</a>
+			</div>
+		</div>
+	</div>
+	<!-- end #content -->
+
+$if admin:
+	<div id="sidebar">
+        <div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
+			<ul>
+				<li>
+					<h2>Admin Menu</h2>
+                    <ul>
+                        <li><a href="${URL_BASE}edit/$request.id">Edit Help Request</a></li>
+                        <li><a href="${URL_BASE}delete/$request.id">Delete Help Request</a></li>
+                    </ul>
+				</li>
+			</ul>
+		</div>
+		<div id="sidebar-bgbtm"></div>
+	</div>
+	<!-- end #sidebar -->
+</div>
+<!-- end #page -->
+
+

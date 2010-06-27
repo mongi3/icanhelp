@@ -1,0 +1,25 @@
+$def with (post)
+
+<ul id="breadcrumb">
+	<li><a href="${URL_BASE}" title="Home"><img src="${URL_BASE}static/images/home.gif" alt="Home" class="home" /></a></li>
+	<li><a href="${URL_BASE}view/$post.id" title="$post.title">$post.title</a></li>
+	<li>Confirm Deletion</li>
+</ul>
+
+<div id="page">
+	<div id="content">
+		<div class="post">
+			<h2 class="title">Confirm Deletion</h2>
+			<div class="entry">
+                <p>Are you sure you want to delete this help request?</p>
+                <form action="" method="post">
+                    <input type="hidden" value="$post.id"/>
+                    <input type="submit" value="OK"/>
+                </form>
+			</div>
+		</div>
+	</div>
+	<!-- end #content -->
+</div>
+<!-- end #page -->
+
