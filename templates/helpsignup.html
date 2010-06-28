@@ -12,19 +12,19 @@ $def with (post, item, form)
 		<div class="post">
 			<h2 class="title">Signup to help</h2>
 			<div class="entry">
-                <TABLE class="helpTable">
-                <TR>
-                  <TH>Date</TH>
-                  <TH>Description</TH>
-                </TR>
-                   <TR>
-                      <TD>$item.date</TD>
-                      <TD>$item.description</TD>
-                   </TR>
-                </TABLE>
+                <table class="helpTable">
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                </tr>
+                   <tr>
+                      <td>$item.date</td>
+                      <td>$item.description</td>
+                   </tr>
+                </table>
                 <br/>
                 <form action="" method="post">
-                    <input type="hidden" value="$item.id"/>
+                    <div><input type="hidden" value="$item.id"/></div>
                 $:form.render()
                 </form>
 			</div>

@@ -78,7 +78,7 @@ class New:
         web.form.Dropdown('contactId', contact_list, description="Contact:"),
         web.form.Textbox('title', web.form.notnull, size=30, description="Title:"),
         web.form.Textarea('details', web.form.notnull, rows=10, cols=65, description="Details:"),
-        web.form.Button('Done')
+        web.form.Button('Done', type='submit')
         )
     
     def GET(self):
@@ -152,7 +152,7 @@ class NewItem:
     form = web.form.Form(
         web.form.Textbox('date', web.form.regexp(r'\d{1,2}/\d{1,2}/\d{4}', 'Must be in form mm/dd/yyyy'), size=8, description="Date:"),
         web.form.Textbox('description', web.form.notnull, size=30, description="Description:"),
-        web.form.Button('Done')
+        web.form.Button('Done', type='submit')
         )
     
     def GET(self, post_id):
@@ -198,7 +198,7 @@ class EditItem:
         web.form.Textbox('helpName', size=30, description="Helper Name:"),
         web.form.Textbox('helpEmail', size=30, description="Helper Email:"),
         web.form.Textbox('helpPhone', size=30, description="Helper Phone:"),
-        web.form.Button('Done')
+        web.form.Button('Done', type='submit')
         )
         
     def GET(self, id):
@@ -234,8 +234,8 @@ class HelpSignup:
         web.form.Textbox('helpEmail', size=30, description="Email:"),
         web.form.Textbox('helpEmail2', size=30, description="Repeat Email:"),
         web.form.Textbox('helpPhone', size=30, description="Phone:"),
-        web.form.Button('Signup'),
-        validators = [ web.form.Validator("Email addresses didn't match", 
+        web.form.Button('Signup', type='submit'),
+        validators = [ web.form.Validator("Email addresses do not match", 
                                         lambda i: i.helpEmail == i.helpEmail2),
                        web.form.Validator("Must provide either email or phone number", 
                                         lambda i: i.helpEmail != '' or i.helpPhone != ''),
@@ -278,7 +278,7 @@ class Login:
     form = web.form.Form(
         web.form.Textbox('username', web.form.notnull),
         web.form.Password('password', web.form.notnull),
-        web.form.Button('Login')
+        web.form.Button('Login', type='submit')
         )
         
     def GET(self):
@@ -338,7 +338,7 @@ class NewAdmin:
         web.form.Textbox('name', web.form.notnull, size=30, description="Name:"),
         web.form.Textbox('email', web.form.notnull, web.form.regexp(r'.*@.*\..*', 'Invalid email'), size=30, description="Email:"),
         web.form.Textbox('phone', web.form.notnull, size=30, description="Phone:"),
-        web.form.Button('OK')
+        web.form.Button('OK', type='submit')
         )
         
     def GET(self):

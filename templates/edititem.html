@@ -12,7 +12,7 @@ $def with (post, item, form)
 			<h2 class="title">Edit Help Item</h2>
 			<div class="entry">
                 <form action="" method="post">
-                    <input type="hidden" value="$item.id"/>
+                    <div><input type="hidden" value="$item.id"/></div>
                 $:form.render()
                 </form>
 			</div>
