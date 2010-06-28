@@ -14,8 +14,10 @@ $def with (post, item)
 			<div class="entry">
                 <p>Are you sure you want to delete this help item?</p>
                 <form action="" method="post">
-                    <input type="hidden" value="$item.id"/>
-                    <input type="submit" value="OK"/>
+                    <div>
+                        <input type="hidden" value="$item.id"/>
+                        <input type="submit" value="OK"/>
+                    </div>
                 </form>
 			</div>
 		</div>
@@ -23,5 +25,4 @@ $def with (post, item)
 	<!-- end #content -->
 </div>
 <!-- end #page -->
-<h2></h2>
 

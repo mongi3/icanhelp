@@ -18,66 +18,66 @@ $ help_request_filled = True # this will get set to false later if an item is st
                 <br/>
 
                 $if admin:
-                   <TABLE class="helpTable">
+                   <table class="helpTable">
                        <thead>
-                           <TR>
-                              <TH></TH>
-                              <TH>Date</TH>
-                              <TH>Description</TH>
-                              <TH>Helper Name</TH>
-                              <TH>Email</TH>
-                              <TH>Phone</TH>
-                              <TH></TH>
-                           </TR>
+                           <tr>
+                              <th></th>
+                              <th>Date</th>
+                              <th>Description</th>
+                              <th>Helper Name</th>
+                              <th>Email</th>
+                              <th>Phone</th>
+                              <th></th>
+                           </tr>
                        </thead>
                        <tbody>
                         $for item in items:
                             $ rowClass = ''
                             $if utils.date_in_past(item.date):
                                 $ rowClass = 'inactive'
-                            <TR class="$rowClass">
-                              <TD><a href="${URL_BASE}edititem/$item.id">(edit)</a></TD>
-                              <TD>$utils.convert_date(item.date)</TD>
-                              <TD>$item.description</TD>
-                              <TD>$item.helpName</TD>
-                              <TD>$item.helpEmail</TD>
-                              <TD>$item.helpPhone</TD>
-                              <TD><a href="${URL_BASE}deleteitem/$item.id">(delete)</a></TD>
+                            <tr class="$rowClass">
+                              <td><a href="${URL_BASE}edititem/$item.id">(edit)</a></td>
+                              <td>$utils.convert_date(item.date)</td>
+                              <td>$item.description</td>
+                              <td>$item.helpName</td>
+                              <td>$item.helpEmail</td>
+                              <td>$item.helpPhone</td>
+                              <td><a href="${URL_BASE}deleteitem/$item.id">(delete)</a></td>
                               $if not item.helpName:
                                   $ help_request_filled = False
-                            </TR>
+                            </tr>
                        </tbody>
-                   </TABLE>
+                   </table>
                    <br/>
                    <a href="${URL_BASE}newitem/$request.id">Add new item</a><br/>
                 $else:
-                   <TABLE class="helpTable">
+                   <table class="helpTable">
                        <thead>
-                           <TR>
-                              <TH>Date</TH>
-                              <TH>Description</TH>
-                              <TH>Status</TH>
-                           </TR>
+                           <tr>
+                              <th>Date</th>
+                              <th>Description</th>
+                              <th>Status</th>
+                           </tr>
                        </thead>
                        <tbody>
                             $for item in items:
                                 $if not utils.date_in_past(item.date):
-                                   <TR>
-                                      <TD>$utils.convert_date(item.date)</TD>
-                                      <TD>$item.description</TD>
+                                   <tr>
+                                      <td>$utils.convert_date(item.date)</td>
+                                      <td>$item.description</td>
                                       $if item.helpName:
-                                          <TD>Help provided</TD>
+                                          <td>Help provided</td>
                                       $else:
                                           $ help_request_filled = False
-                                          <TD><a href="${URL_BASE}helpsignup/$item.id">Click here to Help</a></TD>
-                                   </TR>
+                                          <td><a href="${URL_BASE}helpsignup/$item.id">Click here to Help</a></td>
+                                   </tr>
                        </tbody>
-                   </TABLE>
+                   </table>
 
-                <BR/>
+                <br/>
                 $if help_request_filled:
                     <h3>All items have been provided for at this time</h3>
-                <BR/>
+                <br/>
 
                 If you have any further questions, please contact: $contact.name<br/>
                 <br/>
