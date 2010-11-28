@@ -80,27 +80,45 @@ def update_help_item(item_id, date, description, helpName, helpEmail, helpPhone)
                 helpPhone=helpPhone)
 
 
-def get_contacts():
-    return db.select('Contact')
+def get_contacts(id=None):
+    if id == None:
+        contacts = db.select('Contact')
+    else:
+        contacts = db.select('Contact', where="id=$id", vars=locals())[0]
+    return contacts
 
-def add_contact(name, email, phone):
-    return db.insert('Contact', name=name, email=email, phone=phone)
+def add_contact(username, passhash, name, email, phone):
+    return db.insert('Contact', username=username, passhash=passhash, name=name, email=email, phone=phone)
+
+def update_contact(contactId, username, passhash, name, email, phone):
+    return db.update('Contact', where="id=$contactId", vars=locals(), username=username, passhash=passhash, name=name, email=email, phone=phone)
+
+
+def authorized_user(userId, postId):
+    """Returns True if the provided user is authorized modify the post, False
+    otherwise."""
+    # The initial user is allowed to modify any listing, otherwise only the
+    # user that created the listing can modify it.
+    return userId == 1 or userId == postId
 
 
 def initDb():
    """Setup the database structure, clearing any existing database if it exists.
    This function should ONLY be called when initializing database when first
    setup."""
+   import sqlite3
    try:
        os.remove(DB_FILE)
    except OSError:
        pass
    db = sqlite3.connect(DB_FILE)
    db.execute("""create table Contact
-                     (id      INTEGER PRIMARY KEY,
-                      name    TEXT,
-                      email   TEXT,
-                      phone   TEXT
+                     (id        INTEGER PRIMARY KEY,
+                      username  TEXT,
+                      passhash  TEXT,
+                      name      TEXT,
+                      email     TEXT,
+                      phone     TEXT
                       )""")
    db.execute("""create table HelpRequest
                      (id         INTEGER PRIMARY KEY,
@@ -119,6 +137,9 @@ def initDb():
                       helpPhone      TEXT,
                       FOREIGN KEY(helpRequestId) REFERENCES HelpRequest(id)
                       )""")
+   # init with single admin user
+   db.execute("""insert into Contact (username,passhash,name,email,phone)
+                 values ('admin','0469e6fb07c68d525e2a2121b8c237f7','administrator','asdf@asdf.com','555-5555')""")
    db.commit()
    db.close()
    

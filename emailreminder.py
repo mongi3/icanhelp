@@ -61,7 +61,7 @@ If you have any questions don't reply to this email.  Instead contact %(contactN
 
 Thanks!""" % item
 #        print f, to, subject, msg
-        web.sendmail(f,to,subject,msg,bcc='mongi3@gmail.com')
+        web.sendmail(f,to,subject,msg)#,bcc='mongi3@gmail.com')
     else:
         # If the person who signed up didn't provide an email address, the
         # contact person will instead get an email so they can contact the
@@ -86,7 +86,7 @@ Details can be found here:
         
         http://jcopeland.homeip.net/icanhelp/view/%(helpRequestId)s""" % item
 #        print f, to, subject, msg
-        web.sendmail(f,to,subject,msg,bcc='mongi3@gmail.com')
+        web.sendmail(f,to,subject,msg)#,bcc='mongi3@gmail.com')
 
 
 

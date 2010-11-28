@@ -27,7 +27,7 @@ $# breadcrum =
 			<div class="entry">
                 <ul>
                 $for post in posts:
-                    $if post.active or admin:
+                    $if (not admin and post.active) or (admin and model.authorized_user(session.userId, post.contactId)):
                         $ postClass = ''
                         $if not post.active:
                             $ postClass = 'inactive'
@@ -47,6 +47,7 @@ $if admin:
 					<h2>Admin Menu</h2>
                     <ul>
                         <li><a href="${URL_BASE}new">New Help Request</a></li>
+                        <li><a href="${URL_BASE}editadmin">Edit Admin Data</a></li>
                         <li><a href="${URL_BASE}newadmin">Add New Admin</a></li>
                         <li><a href="${URL_BASE}logout">Logout</a></li>
                     </ul>
