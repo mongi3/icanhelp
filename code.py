@@ -28,6 +28,7 @@ urls = (
     '/error/(.*)', 'Error',
     '/helpconfirm/(\d+)', 'HelpConfirm',
     '/newadmin', 'NewAdmin',
+    '/editadmin', 'EditAdmin',
 )
 
 app = web.application(urls, globals())
@@ -35,7 +36,7 @@ app = web.application(urls, globals())
 # This statement is more complicated than just the session line so that
 # debug prompts that cause reload of the module work properly.
 if web.config.get('_session') is None:
-    session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'admin': False})
+    session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'admin': False, 'userId': None})
 #    session = web.session.Session(app, web.session.DBStore(model.db,'SessionData'), initializer={'admin': False})
     web.config._session = session
 else:
@@ -46,7 +47,8 @@ else:
 t_globals = {
     'session': session,
     'utils'  : utils,
-    'URL_BASE': URL_BASE
+    'model'  : model,
+    'URL_BASE': URL_BASE,
 }
 render = web.template.render('templates', base='base', globals=t_globals)
 
@@ -83,13 +85,13 @@ class New:
     
     def GET(self):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         form = self.form()
         return render.new(form)
 
     def POST(self):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         form = self.form()
         if not form.validates():
             return render.new(form)
@@ -104,6 +106,8 @@ class View:
         post_data = model.get_post(id)
         if not post_data:
             argument_error()
+        if session.admin and not model.authorized_user(session.userId, post_data.contactId):
+            authorization_error()
         # Modify details of post_data for display.  Need to be able to handle
         # newlines in textarea data in a websafe way.
         post_data.details = web.net.websafe(post_data.details)
@@ -116,13 +120,18 @@ class View:
 class Delete:
     def GET(self, id):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         post = model.get_post(int(id))
+        if not model.authorized_user(session.userId, post.contactId):
+            authorization_error()
         return render.delete(post)
 
     def POST(self, id):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
+        post = model.get_post(int(id))
+        if not model.authorized_user(session.userId, post.contactId):
+            authorization_error()
         model.del_post(int(id))
         raise web.seeother('/')
 
@@ -130,18 +139,22 @@ class Delete:
 class Edit:
     def GET(self, id):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         post = model.get_post(int(id))
+        if not model.authorized_user(session.userId, post.contactId):
+            authorization_error()
         form = New.form()
         form.fill(post)
         return render.edit(post, form)
 
     def POST(self, id):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         #TODO: take care of display issue with details (textarea data)
         form = New.form()
         post = model.get_post(int(id))
+        if not model.authorized_user(session.userId, post.contactId):
+            authorization_error()
         if not form.validates():
             return render.edit(post, form)
         model.update_post(int(id), form.d.title, form.d.details, form.d.contactId)
@@ -157,16 +170,21 @@ class NewItem:
     
     def GET(self, post_id):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         post_id = int(post_id)
         post = model.get_post(post_id)
+        if not model.authorized_user(session.userId, post.contactId):
+            authorization_error()
         form = self.form()
         return render.newitem(post, form)
 
     def POST(self, post_id):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         post_id = int(post_id)
+        post = model.get_post(post_id)
+        if not model.authorized_user(session.userId, post.contactId):
+            authorization_error()
         form = self.form()
         if not form.validates():
             post = model.get_post(post_id)
@@ -178,15 +196,20 @@ class NewItem:
 class DeleteItem:
     def GET(self, item_id):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         item = model.get_item(int(item_id))
         post = model.get_post(item.helpRequestId)
+        if not model.authorized_user(session.userId, post.contactId):
+            authorization_error()
         return render.deleteitem(post, item)
 
     def POST(self, item_id):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         item_data = model.get_item(int(item_id))
+        post = model.get_post(item_data.helpRequestId)
+        if not model.authorized_user(session.userId, post.contactId):
+            authorization_error()
         post_id = model.del_help_item(int(item_id))
         raise web.seeother('/view/%d' % item_data.helpRequestId)
 
@@ -203,20 +226,24 @@ class EditItem:
         
     def GET(self, id):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         item = model.get_item(int(id))
         post = model.get_post(item.helpRequestId)
+        if not model.authorized_user(session.userId, post.contactId):
+            authorization_error()
         form = self.form()
         form.fill(item)
         return render.edititem(post, item, form)
 
     def POST(self, id):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         #TODO: take care of display issue with details (textarea data)
         form = self.form()
         item = model.get_item(int(id))
         post = model.get_post(item.helpRequestId)
+        if not model.authorized_user(session.userId, post.contactId):
+            authorization_error()
         if not form.validates():
             return render.edititem(post, item, form)
         model.update_help_item(int(id), form.d.date, form.d.description, 
@@ -266,12 +293,15 @@ class HelpSignup:
         model.update_help_item(int(id), item.date, item.description, 
                      form.d.helpName, form.d.helpEmail, form.d.helpPhone)
         emailconfirm.sendConfirmationEmail(int(id))
-        raise web.seeother('/helpconfirm/%d' % item.helpRequestId)
+        raise web.seeother('/helpconfirm/%d' % item.id)
 
 
 class HelpConfirm:
     def GET(self, id):
-        return render.helpconfirm(int(id))
+        item = model.get_item(int(id))
+        if not item:   # Requested item doesn't exist
+            raise web.seeother('/')
+        return render.helpconfirm(item)
 
 
 class Login:
@@ -290,16 +320,20 @@ class Login:
         if not form.validates():
             return render.login(form)
         pwdhash = hashlib.md5(form.d.password).hexdigest()
-        if form.d.username == 'admin' and pwdhash == '0469e6fb07c68d525e2a2121b8c237f7':
-            #login successful
-            session.admin = True
-            raise web.seeother('/')
-        else:
+        session.user = None
+        for contact in model.get_contacts():
+            if form.d.username == contact.username and pwdhash == contact.passhash:
+                #login successful
+                session.userId = contact.id
+                session.admin = True
+                raise web.seeother('/')
+        if not session.user:
             return render.login(form)
 
 
 class Logout:
     def GET(self):
+        session.userId = None
         session.admin = False
         raise web.seeother('/')
 
@@ -317,6 +351,10 @@ class Error:
             title = 'Help Already Provided'
             msg = 'Help has already been provded for this item.  Click link below to find other available items.'
             link = 'view/%s' % data.req_id
+        elif error == 'not_authorized':
+            title = 'Authorization Error'
+            msg = 'You are not authorized to perform the requested operation.'
+            link = ''
         else:
             return self.unknown_error()
         return render.error(title, msg, link)
@@ -332,29 +370,68 @@ def argument_error():
     """Call this function whenever invalid arguments are provided by user in 
     URL string"""
     raise web.seeother('/error/bogus_arguments')
+
+def authorization_error():
+    """Call this function whenever user attempts unauthorized action"""
+    raise web.seeother('/error/not_authorized')
+
     
 class NewAdmin:
     form = web.form.Form(
+        web.form.Textbox('username', web.form.notnull, size=30, description="Username:"),
+        web.form.Password('password', web.form.notnull, size=30, description="Password:"),
+        web.form.Password('password2', web.form.notnull, size=30, description="Repeat Password:"),
         web.form.Textbox('name', web.form.notnull, size=30, description="Name:"),
         web.form.Textbox('email', web.form.notnull, web.form.regexp(r'.*@.*\..*', 'Invalid email'), size=30, description="Email:"),
+        web.form.Textbox('email2', web.form.notnull, size=30, description="Repeat Email:"),
         web.form.Textbox('phone', web.form.notnull, size=30, description="Phone:"),
-        web.form.Button('OK', type='submit')
+        web.form.Button('OK', type='submit'),
+        validators = [ web.form.Validator("Passwords do not match", 
+                                        lambda i: i.password == i.password2),
+                       web.form.Validator("Email addresses do not match", 
+                                        lambda i: i.email == i.email2),
+                     ]
         )
         
     def GET(self):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         form = self.form()
         return render.newadmin(form)
 
     def POST(self):
         if not session.admin:
-            return "You must be an administrator to perform this function"
+            authorization_error()
         form = self.form()
         if not form.validates():
             return render.newadmin(form)
-        model.add_contact(form.d.name, form.d.email, form.d.phone)
+        passhash = hashlib.md5(form.d.password).hexdigest()
+        model.add_contact(form.d.username, passhash, form.d.name, form.d.email, form.d.phone)
         raise web.seeother('/')
+
+
+class EditAdmin:
+        
+    def GET(self):
+        if not session.admin:
+            authorization_error()
+        admin = model.get_contacts(session.userId)
+        #print admin
+        form = NewAdmin.form()
+        form.fill(admin)
+        return render.editadmin(form)
+
+
+    def POST(self):
+        if not session.admin:
+            authorization_error()
+        form = NewAdmin.form()
+        if not form.validates():
+            return render.editadmin(form)
+        passhash = hashlib.md5(form.d.password).hexdigest()
+        model.update_contact(session.userId, form.d.username, passhash, form.d.name, form.d.email, form.d.phone)
+        raise web.seeother('/')
+
 
 
 if __name__ == '__main__':

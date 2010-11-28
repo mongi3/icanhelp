@@ -1,4 +1,4 @@
-$def with (id)
+$def with (item)
 
 <ul id="breadcrumb">
 	<li><a href="${URL_BASE}" title="Home"><img src="${URL_BASE}static/images/home.gif" alt="Home" class="home" /></a></li>
@@ -10,8 +10,19 @@ $def with (id)
 		<div class="post">
 			<h2 class="title">Thank you</h2>
 			<div class="entry">
+                <table class="helpTable">
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                </tr>
+                   <tr>
+                      <td>$item.date</td>
+                      <td>$item.description</td>
+                   </tr>
+                </table>
+                <br/>
                 <p>You have been signed up to help.  If you provided an email, a confirmation will be sent shortly.  A reminder will also be emailed the day before.</p>
-                <a href="${URL_BASE}view/$id">Click to go to Help Request</a>
+                <a href="${URL_BASE}view/$item.helpRequestId">Click to go to Help Request</a>
 			</div>
 		</div>
 	</div>

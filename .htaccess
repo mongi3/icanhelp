@@ -1,4 +1,11 @@
 
+# Don't allow acess to any *.sqlite files in directory tree
+<FilesMatch "\.(sqlite)$">
+ Order allow,deny
+ Deny from all
+</FilesMatch>
+
+
 #Options -MultiViews
 
 #SetHandler cgi-script
