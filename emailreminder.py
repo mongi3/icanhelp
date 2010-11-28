@@ -37,7 +37,25 @@ for item in db.select('HelpItem'):
 # data from the database about the item)
 
 for item in tomorrow_items:
-    if item.helpEmail:
+    if not item.helpName:
+        # If the item doesn't have a name, no one is signed up.  Notify the
+        # the contact person that the spot is still free.
+        post_data = model.get_post(int(item.helpRequestId))
+        contact_data = model.get_contact_data(post_data.contactId)
+        item.contactName = contact_data.name
+        item.contactEmail = contact_data.email
+        item.contactPhone = contact_data.phone
+        
+        # Construct message
+        f = 'icanhelp.valencia@gmail.com'
+        to = item.contactEmail
+        subject = 'No one signed up for help on %(date)s' % item
+        msg = """No one signed up for help on %(date)s, item "%(description)s"
+        
+Details can be found here:
+        
+        http://jcopeland.homeip.net/icanhelp/view/%(helpRequestId)s""" % item
+    elif item.helpEmail:
         # Get contact info for the help item
         post_data = model.get_post(int(item.helpRequestId))
         contact_data = model.get_contact_data(post_data.contactId)
@@ -60,8 +78,6 @@ If you have any questions don't reply to this email.  Instead contact %(contactN
     phone: %(contactPhone)s
 
 Thanks!""" % item
-#        print f, to, subject, msg
-        web.sendmail(f,to,subject,msg)#,bcc='mongi3@gmail.com')
     else:
         # If the person who signed up didn't provide an email address, the
         # contact person will instead get an email so they can contact the
@@ -85,8 +101,10 @@ Thanks!""" % item
 Details can be found here:
         
         http://jcopeland.homeip.net/icanhelp/view/%(helpRequestId)s""" % item
-#        print f, to, subject, msg
-        web.sendmail(f,to,subject,msg)#,bcc='mongi3@gmail.com')
+
+    # Actually send the email
+#    print f, to, subject, msg
+    web.sendmail(f,to,subject,msg)#,bcc='mongi3@gmail.com')
 
 
 
