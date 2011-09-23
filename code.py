@@ -1,4 +1,4 @@
-d#!/usr/bin/env python
+#!/usr/bin/env python
 
 """ Using webpy 0.3 """
 import web
