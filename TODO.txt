@@ -1,11 +1,2 @@
--the confirmation script does not work properly if no person has signed
- up.  It sees this as a person signing up with no contact info who
- needs a manual reminder.  This can easily be adjusted to warn the 
- contact person that no-one has signed up for that item.  Should this
- perhaps be checked a little more in advance?
-xfix confirmation email to include more detail (description of the item 
-signed up for)
--Consider adding more info to the confirmation page itself (similar to 
-the updates made to the email)
 -add ability to remove a helper (not just manually eliminating their 
 info) (ADMIN)

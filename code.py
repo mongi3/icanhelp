@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+d#!/usr/bin/env python
 
 """ Using webpy 0.3 """
 import web
@@ -163,7 +163,7 @@ class Edit:
 
 class NewItem:
     form = web.form.Form(
-        web.form.Textbox('date', web.form.regexp(r'\d{1,2}/\d{1,2}/\d{4}', 'Must be in form mm/dd/yyyy'), size=8, description="Date:"),
+        web.form.Textbox('date', web.form.regexp(r'^(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])/(19|20)\d\d$', 'Must be in form mm/dd/yyyy'), size=8, description="Date:"),
         web.form.Textbox('description', web.form.notnull, size=30, description="Description:"),
         web.form.Button('Done', type='submit')
         )
@@ -216,7 +216,7 @@ class DeleteItem:
 
 class EditItem:
     form = web.form.Form(
-        web.form.Textbox('date', web.form.regexp(r'\d{1,2}/\d{1,2}/\d{4}', 'Must be in form mm/dd/yyyy'), size=8, description="Date:"),
+        web.form.Textbox('date', web.form.regexp(r'^(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])/(19|20)\d\d$', 'Must be in form mm/dd/yyyy'), size=8, description="Date:"),
         web.form.Textbox('description', web.form.notnull, size=30, description="Description:"),
         web.form.Textbox('helpName', size=30, description="Helper Name:"),
         web.form.Textbox('helpEmail', size=30, description="Helper Email:"),
