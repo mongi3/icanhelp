@@ -29,7 +29,9 @@ db = model.db
 for item in db.select('HelpItem'):
     item_time = datetime.strptime(item.date,'%m/%d/%Y')
     t_delta = item_time - now
+#    print item.date,t_delta
     if timedelta(days=0) < t_delta < timedelta(days=1):
+#        print 'SEND EMAIL:',item.date,t_delta
         tomorrow_items.append(item)
     
 
@@ -103,7 +105,7 @@ Details can be found here:
         http://jcopeland.homeip.net/icanhelp/view/%(helpRequestId)s""" % item
 
     # Actually send the email
-#    print f, to, subject, msg
+    print f, to, subject, msg
     web.sendmail(f,to,subject,msg)#,bcc='mongi3@gmail.com')
 
 
