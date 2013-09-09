@@ -27,7 +27,7 @@ def sendConfirmationEmail(item_id):
     item.contactPhone = contact_data.phone
 
     if item.helpEmail:
-        f = 'icanhelp.valencia@gmail.com'
+        f = web.config.smtp_username
         to = item.helpEmail
         cc = item.contactEmail
         subject = 'Confirmation: you signed up to help on %(date)s' % item
@@ -43,11 +43,11 @@ If you have any questions don't reply to this email.  Instead contact %(contactN
 
 Thanks!""" % item
         #print f, to, subject, msg
-        web.sendmail(f,to,subject,msg,cc=cc)#,bcc='mongi3@gmail.com')
+        web.sendmail(f,to,subject,msg,cc=cc)
     else:
         # The person did not provide an email.  Instead an email will be sent
         # to the contact person informing them of the situation.
-        f = 'icanhelp.valencia@gmail.com'
+        f = web.config.smtp_username
         to = item.contactEmail
         subject = 'Confirmation: Helper with no email'
         msg = """%(helpName)s signed up to help on %(date)s for item 
@@ -60,7 +60,7 @@ Details can be found here:
 http://jcopeland.homeip.net/icanhelp/view/%(helpRequestId)s
 """ % item
         #print f, to, subject, msg
-        web.sendmail(f,to,subject,msg)#,bcc='mongi3@gmail.com')
+        web.sendmail(f,to,subject,msg)
     
 
 
