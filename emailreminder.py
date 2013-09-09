@@ -49,7 +49,7 @@ for item in tomorrow_items:
         item.contactPhone = contact_data.phone
         
         # Construct message
-        f = 'icanhelp.valencia@gmail.com'
+        f = web.config.smtp_username
         to = item.contactEmail
         subject = 'No one signed up for help on %(date)s' % item
         msg = """No one signed up for help on %(date)s, item "%(description)s"
@@ -66,7 +66,7 @@ Details can be found here:
         item.contactPhone = contact_data.phone
         
         # Construct message
-        f = 'icanhelp.valencia@gmail.com'
+        f = web.config.smtp_username
         to = item.helpEmail
         subject = 'Reminder: you signed up to help on %(date)s' % item
         msg = """Thanks for you willingness to help.
@@ -92,7 +92,7 @@ Thanks!""" % item
         item.contactPhone = contact_data.phone
         
         # Construct message
-        f = 'icanhelp.valencia@gmail.com'
+        f = web.config.smtp_username
         to = item.contactEmail
         subject = 'Need Manual Reminder for help on %(date)s' % item
         msg = """The following person signed up to help on %(date)s for the item "%(description)s" but did not provide an email to send an auto reminder:
@@ -106,7 +106,7 @@ Details can be found here:
 
     # Actually send the email
     print f, to, subject, msg
-    web.sendmail(f,to,subject,msg)#,bcc='mongi3@gmail.com')
+    web.sendmail(f,to,subject,msg)
 
 
 
