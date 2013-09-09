@@ -3,7 +3,6 @@ import os
 from datetime import datetime
 
 DB_FILE = os.path.join(os.path.dirname(__file__),'db.sqlite')
-#db = web.database(dbn='mysql', db='blog', user='justin')
 db = web.database(dbn='sqlite', db=DB_FILE)
 #db._db_cursor().text_factory = sqlite3.OptimizedUnicode
 
