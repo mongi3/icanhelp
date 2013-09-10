@@ -18,6 +18,11 @@ web.config.smtp_password = 'helpvalencia'
 web.config.smtp_starttls = True
 
 def sendConfirmationEmail(item_id):
+    # don't even attempt if email config info has not been provided
+    if not web.config.smtp_username:
+        print "WARNING: email user/password not configured.  Ignoring attempt to send confirmation email."
+        return
+
     item = model.get_item(int(item_id))
     # Get contact info for the help item
     post_data = model.get_post(int(item.helpRequestId))

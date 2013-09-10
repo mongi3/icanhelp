@@ -23,8 +23,10 @@ sed -i "s/smtp_password = '.*'/smtp_password = ''/" icanhelp/email*.py
 
 # Create release and cleanup
 OUTPUT=`date +%Y_%m_%d`-icanhelpRelease.tgz
-tar -czvf $OUTPUT icanhelp
-rm -rf icanhelp
+cp icanhelp/bin/Vagrantfile .
+cp icanhelp/bin/README.txt .
+tar -czvf $OUTPUT icanhelp Vagrantfile README.txt
+rm -rf icanhelp Vagrantfile README.txt
 
 echo
 echo "Release file generated: $OUTFILE"

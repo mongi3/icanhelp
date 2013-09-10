@@ -9,7 +9,7 @@
 #Options -MultiViews
 
 #SetHandler cgi-script
-#Options +ExecCGI
+Options +ExecCGI
 AddHandler cgi-script .py
 #AddHandler text/css   .css
 
