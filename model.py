@@ -137,9 +137,9 @@ def initDb():
                       FOREIGN KEY(helpRequestId) REFERENCES HelpRequest(id)
                       )""")
    # init with single admin user
-   #default password: "defaultPasswordTucson" <-- BE SURE TO CHANGE!
+   #default password: "admin" <-- BE SURE TO CHANGE!
    db.execute("""insert into Contact (username,passhash,name,email,phone)
-                 values ('admin','b86436e40fecfd04082fd8c11def6cd6','administrator','asdf@asdf.com','555-5555')""")
+                 values ('admin','21232f297a57a5a743894a0e4a801fc3','administrator','asdf@asdf.com','555-5555')""")
    db.commit()
    db.close()
    

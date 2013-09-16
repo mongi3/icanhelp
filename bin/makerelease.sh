@@ -17,10 +17,6 @@ PROJECT_BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/..
 rm -rf icanhelp
 hg archive -R $PROJECT_BASE icanhelp
 
-# Sanitize output
-sed -i "s/smtp_username = '.*'/smtp_username = ''/" icanhelp/email*.py
-sed -i "s/smtp_password = '.*'/smtp_password = ''/" icanhelp/email*.py
-
 # Create release and cleanup
 OUTPUT=`date +%Y_%m_%d`-icanhelpRelease.tgz
 cp icanhelp/bin/Vagrantfile .

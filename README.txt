@@ -61,9 +61,8 @@ script inspects the database for any events comming up and sends reminder emails
 Items of Note
 =============
 In order for the confirmation (at signup) and reminder email scripts to work 
-you'll need to update the two email*.py scripts with your own stmp info.  
-For this site I created a gmail account icanhelp_valencia@gmail.com and 
-provided it's email/password in the scripts.
+you'll need to follow the instructions in config.py to provide your own stmp info.  
+For this site I created a gmail account icanhelp.valencia@gmail.com.
 
 The site uses sqlite database to store information.  Before using you'll need
 to create the database file.  I've got a function to do this which you can
@@ -92,7 +91,7 @@ When you initialized the database above, a single user was created with the
 following credentials:
 
 username: admin
-password: defaultPasswordTucson
+password: admin
 
 You'll of course want to login as admin and change this to something different.
 
