@@ -13,12 +13,12 @@ up to help, they will be emailed a reminder.
 import web
 import model
 from datetime import datetime, timedelta
+import config
 
-
-web.config.smtp_server = 'smtp.gmail.com'
-web.config.smtp_port = 587
-web.config.smtp_username = 'icanhelp.valencia@gmail.com'
-web.config.smtp_password = 'helpvalencia'
+web.config.smtp_server = config.SMTP_SERVER
+web.config.smtp_port = config.SMTP_PORT
+web.config.smtp_username = config.SMTP_USER
+web.config.smtp_password = config.SMTP_PASS
 web.config.smtp_starttls = True
 
 now = datetime.now()
@@ -39,16 +39,16 @@ for item in db.select('HelpItem'):
 # data from the database about the item)
 
 for item in tomorrow_items:
+    post_data = model.get_post(int(item.helpRequestId))
+    contact_data = model.get_contact_data(post_data.contactId)
+    item.contactName = contact_data.name
+    item.contactEmail = contact_data.email
+    item.contactPhone = contact_data.phone
+    item.url = "%s%sview/%s" % (config.SITE_BASE, config.URL_BASE, item.helpRequestId)
+
     if not item.helpName:
         # If the item doesn't have a name, no one is signed up.  Notify the
         # the contact person that the spot is still free.
-        post_data = model.get_post(int(item.helpRequestId))
-        contact_data = model.get_contact_data(post_data.contactId)
-        item.contactName = contact_data.name
-        item.contactEmail = contact_data.email
-        item.contactPhone = contact_data.phone
-        
-        # Construct message
         f = web.config.smtp_username
         to = item.contactEmail
         subject = 'No one signed up for help on %(date)s' % item
@@ -56,16 +56,8 @@ for item in tomorrow_items:
         
 Details can be found here:
         
-        http://jcopeland.homeip.net/icanhelp/view/%(helpRequestId)s""" % item
+        %(url)s""" % item
     elif item.helpEmail:
-        # Get contact info for the help item
-        post_data = model.get_post(int(item.helpRequestId))
-        contact_data = model.get_contact_data(post_data.contactId)
-        item.contactName = contact_data.name
-        item.contactEmail = contact_data.email
-        item.contactPhone = contact_data.phone
-        
-        # Construct message
         f = web.config.smtp_username
         to = item.helpEmail
         subject = 'Reminder: you signed up to help on %(date)s' % item
@@ -73,7 +65,7 @@ Details can be found here:
         
 This is a reminder that you signed up to help on %(date)s for the item "%(description)s".  More details can be found here:
         
-http://jcopeland.homeip.net/icanhelp/view/%(helpRequestId)s
+%(url)s
         
 If you have any questions don't reply to this email.  Instead contact %(contactName)s
     email: %(contactEmail)s
@@ -84,14 +76,6 @@ Thanks!""" % item
         # If the person who signed up didn't provide an email address, the
         # contact person will instead get an email so they can contact the
         # person that signed up by phone or some other means.
-        # Get contact info for the help item
-        post_data = model.get_post(int(item.helpRequestId))
-        contact_data = model.get_contact_data(post_data.contactId)
-        item.contactName = contact_data.name
-        item.contactEmail = contact_data.email
-        item.contactPhone = contact_data.phone
-        
-        # Construct message
         f = web.config.smtp_username
         to = item.contactEmail
         subject = 'Need Manual Reminder for help on %(date)s' % item
@@ -102,7 +86,7 @@ Thanks!""" % item
         
 Details can be found here:
         
-        http://jcopeland.homeip.net/icanhelp/view/%(helpRequestId)s""" % item
+        %(url)s""" % item
 
     # Actually send the email
     print f, to, subject, msg

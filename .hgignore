@@ -1,9 +1,12 @@
 syntax: glob
 *~
 *.pyc
+emailLog.txt
+myconfig.py
 
 syntax: regexp
 
 ^sessions/.*
 ^db.sqlite
+
 

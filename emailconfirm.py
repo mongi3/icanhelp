@@ -9,12 +9,12 @@ the contact will be sent an email notifying them of this event.
 import web
 import model
 from datetime import datetime, timedelta
+import config
 
-
-web.config.smtp_server = 'smtp.gmail.com'
-web.config.smtp_port = 587
-web.config.smtp_username = 'icanhelp.valencia@gmail.com'
-web.config.smtp_password = 'helpvalencia'
+web.config.smtp_server = config.SMTP_SERVER
+web.config.smtp_port = config.SMTP_PORT
+web.config.smtp_username = config.SMTP_USER
+web.config.smtp_password = config.SMTP_PASS
 web.config.smtp_starttls = True
 
 def sendConfirmationEmail(item_id):
@@ -30,6 +30,7 @@ def sendConfirmationEmail(item_id):
     item.contactName = contact_data.name
     item.contactEmail = contact_data.email
     item.contactPhone = contact_data.phone
+    item.url = "%s%sview/%s" % (config.SITE_BASE, config.URL_BASE, item.helpRequestId)
 
     if item.helpEmail:
         f = web.config.smtp_username
@@ -40,7 +41,7 @@ def sendConfirmationEmail(item_id):
         
 This email is to confirm that you signed up to help on %(date)s for the item "%(description)s".  More details can be found here:
         
-http://jcopeland.homeip.net/icanhelp/view/%(helpRequestId)s
+%(url)s
         
 If you have any questions don't reply to this email.  Instead contact %(contactName)s
     email: %(contactEmail)s
@@ -62,7 +63,7 @@ Since no email is present, the website will be unable to provide them an automat
 
 Details can be found here:
         
-http://jcopeland.homeip.net/icanhelp/view/%(helpRequestId)s
+%(url)s
 """ % item
         #print f, to, subject, msg
         web.sendmail(f,to,subject,msg)
