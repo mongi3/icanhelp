@@ -77,7 +77,6 @@ class New:
     # Build contact list of dropdown
     contact_list = [(contact.id,contact.name) for contact in model.get_contacts()]
     form = web.form.Form(
-        web.form.Dropdown('contactId', contact_list, description="Contact:"),
         web.form.Textbox('title', web.form.notnull, size=30, description="Title:"),
         web.form.Textarea('details', web.form.notnull, rows=10, cols=65, description="Details:"),
         web.form.Button('Done', type='submit')
@@ -95,7 +94,7 @@ class New:
         form = self.form()
         if not form.validates():
             return render.new(form)
-        post_id = model.new_post(form.d.title, form.d.details, form.d.contactId)
+        post_id = model.new_post(form.d.title, form.d.details, session.userId)
         raise web.seeother('/view/%d' % post_id)
 
 
