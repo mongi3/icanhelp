@@ -156,7 +156,7 @@ class Edit:
             authorization_error()
         if not form.validates():
             return render.edit(post, form)
-        model.update_post(int(id), form.d.title, form.d.details, form.d.contactId)
+        model.update_post(int(id), form.d.title, form.d.details)
         raise web.seeother('/view/%d' % int(id))
 
 

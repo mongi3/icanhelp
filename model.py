@@ -53,14 +53,14 @@ def del_post(id):
     db.delete('HelpItem', where="helpRequestId=$id", vars=locals())
     db.delete('HelpRequest', where="id=$id", vars=locals())
 
-def update_post(id, title, details, contactId):
+def update_post(id, title, details):
 #    for item in helpItems:
 #        db.update('HelpItem', where="id=$item.id", vars=locals(),
 #            date=item.date, description=item.desc, 
 #            helpName=item.helpName, helpEmail=item.helpEmail, 
 #            helpPhone=item.helpPhone)
     db.update('HelpRequest', where="id=$id", vars=locals(),
-        title=title, details=details, contactId=contactId)
+        title=title, details=details)
 
 def new_help_item(post_id, date, description):
     """Adds new help item to a post and returns the index of the new item."""
