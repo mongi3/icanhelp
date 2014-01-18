@@ -1,9 +1,39 @@
+============
+Simple Setup
+============
+The easiest way to get up and running to try things out is by using a 
+tool called Vagrant (www.vagrantup.com) to setup a virtual machine.
+
+To setup a test environment in a virtual machine, do the following:
+
+1) install vagrant (ubuntu sudo apt-get install vagrant) or download off web (www.vagrantup.com)
+2) clone repository for bitbucket
+3) in base directory of release (contains Vagrantfile) issue command:
+   vagrant up  (this will provision and start VM)
+4) goto webbrowser and enter address: "localhost:8080/icanhelp"
+5) Code changes and updates can be made in the extracted icanhelp directory.
+   These source files are shared with the VM and should update.
+6) when done testing, feel free to tear down VM with command:
+   vagrant destroy
+
+
+==============
+Advanced Setup
+==============
+Checkout the Vagrantfile and subsequent bootstrap.sh script for the 
+setups taken to setup the machine on your own server.  From there
+numerous configuration changes can be made to setup SSL security
+dynamicdns services if running on home servers etc.
+
+See notes below for additional pointers.
+
+
 ==========
 Background
 ==========
 icanhelp was a quick reaction program (read a few evenings) created to 
-aid my wife after she got called as a compassionate service leader in 
-the relief society.  There is certainly a lot that could be improved for 
+aid my wife after she got called as a compassionate service leader at 
+church.  There is certainly a lot that could be improved for 
 more general use.
 
 One of the primary goals was to make this easy for general users to use.
@@ -28,8 +58,8 @@ The admin can of course log in at any time to check out who has signed up and
 make modifications as required.
 
 The reason it was setup this way was for simplicity and to prevent extraneous
-personal information from being stored on the web.  The security on this site
-is pretty weak (no SSL for example on admin sign-ins) and generally we want
+personal information from being stored on the web.  It takes extra work
+to setup SSL security and such.  Also we generally want
 the least amount of personal details posted to the general web as possible.
 (this can also make it easier to get approval from any authorities who
 may object to such a site.)
@@ -39,7 +69,7 @@ multiple admin accounts to be created so that different people/functions
 could have their own postings for their own purposes.
 
 Below is some basic setup info to help those who may attempt to take this
-code and relicate something on their own.
+code and replicate something on their own.
 
 ===========
 Environment
@@ -62,7 +92,7 @@ Items of Note
 =============
 In order for the confirmation (at signup) and reminder email scripts to work 
 you'll need to follow the instructions in config.py to provide your own stmp info.  
-For this site I created a gmail account icanhelp.valencia@gmail.com.
+For this site I created a gmail account and provided those credentials.
 
 The site uses sqlite database to store information.  Before using you'll need
 to create the database file.  I've got a function to do this which you can
