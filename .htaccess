@@ -5,13 +5,9 @@
  Deny from all
 </FilesMatch>
 
-
-#Options -MultiViews
-
-#SetHandler cgi-script
+# Doing CGI, but could also hook in other ways...
 Options +ExecCGI
 AddHandler cgi-script .py
-#AddHandler text/css   .css
 
 RewriteEngine on
 RewriteBase /icanhelp/

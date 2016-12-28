@@ -5,11 +5,16 @@ import web
 import model
 import time
 import hashlib
+import os
 
 import utils
 from config import URL_BASE
 
 import emailconfirm
+
+### Setup app DB
+if not os.path.isfile(model.DB_FILE):
+    model.initDb()
 
 ### Url mappings
 
