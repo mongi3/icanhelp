@@ -9,8 +9,17 @@
 Options +ExecCGI
 AddHandler cgi-script .py
 
+# Force use of https
+RewriteEngine on
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI}
+
+# Rewrite simple urls to submit to code.py
+# (as proxy so not apparent to user)
+# Conditions below are for statics that should not be rewriten to code.py
 RewriteEngine on
 RewriteBase /icanhelp/
+RewriteCond %{HTTPS} on
 RewriteCond %{REQUEST_URI} !^/icons
 RewriteCond %{REQUEST_URI} !^/static
 RewriteCond %{REQUEST_URI} !^/icanhelp/static
