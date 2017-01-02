@@ -30,7 +30,7 @@ def sendConfirmationEmail(item_id):
     item.contactName = contact_data.name
     item.contactEmail = contact_data.email
     item.contactPhone = contact_data.phone
-    item.url = "%s%sview/%s" % (config.SITE_BASE, config.URL_BASE, item.helpRequestId)
+    item.url = "%s/view/%s" % (config.SITE_BASE, item.helpRequestId)
 
     if item.helpEmail:
         f = web.config.smtp_username

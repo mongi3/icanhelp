@@ -8,7 +8,6 @@ import hashlib
 import os
 
 import utils
-from config import URL_BASE
 
 import emailconfirm
 
@@ -53,7 +52,6 @@ t_globals = {
     'session': session,
     'utils'  : utils,
     'model'  : model,
-    'URL_BASE': URL_BASE,
 }
 render = web.template.render('templates', base='base', globals=t_globals)
 

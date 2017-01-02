@@ -13,8 +13,7 @@ except ImportError:
     # Customized config not available, use defaults
     #NOTE: you should copy these vars to "myconfig.py" and update
     #      for your own installation
-    SITE_BASE = r'http://no_base_site_set_yet.com'
-    URL_BASE=r'/icanhelp/'
+    SITE_BASE = r'http://no_base_site_set_yet.com/icanhelp/'
     
     # SMTP Config (needed for sending emails)
     SMTP_SERVER = 'smtp.gmail.com'

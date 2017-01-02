@@ -44,7 +44,7 @@ for item in tomorrow_items:
     item.contactName = contact_data.name
     item.contactEmail = contact_data.email
     item.contactPhone = contact_data.phone
-    item.url = "%s%sview/%s" % (config.SITE_BASE, config.URL_BASE, item.helpRequestId)
+    item.url = "%s/view/%s" % (config.SITE_BASE, item.helpRequestId)
 
     if not item.helpName:
         # If the item doesn't have a name, no one is signed up.  Notify the
