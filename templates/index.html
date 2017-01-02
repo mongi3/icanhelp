@@ -31,7 +31,7 @@ $# breadcrum =
                         $ postClass = ''
                         $if not post.active:
                             $ postClass = 'inactive'
-                        <li class="$postClass"><a href="${URL_BASE}view/$post.id">$post.title</a> </li>
+                        <li class="$postClass"><a href="./view/$post.id">$post.title</a> </li>
                 </ul>
 			</div>
 		</div>
@@ -46,10 +46,10 @@ $if admin:
 				<li>
 					<h2>Admin Menu</h2>
                     <ul>
-                        <li><a href="${URL_BASE}new">New Help Request</a></li>
-                        <li><a href="${URL_BASE}editadmin">Edit Admin Data</a></li>
-                        <li><a href="${URL_BASE}newadmin">Add New Admin</a></li>
-                        <li><a href="${URL_BASE}logout">Logout</a></li>
+                        <li><a href="./new">New Help Request</a></li>
+                        <li><a href="./editadmin">Edit Admin Data</a></li>
+                        <li><a href="./newadmin">Add New Admin</a></li>
+                        <li><a href="./logout">Logout</a></li>
                     </ul>
 				</li>
 			</ul>
