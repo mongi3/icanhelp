@@ -10,10 +10,15 @@ all help items that are due *the next day*.  If there a person has signed
 up to help, they will be emailed a reminder.
 """
 
+import os
 import web
 import model
 from datetime import datetime, timedelta
 import config
+
+### Setup app DB
+if not os.path.isfile(model.DB_FILE):
+    model.initDb()
 
 web.config.smtp_server = config.SMTP_SERVER
 web.config.smtp_port = config.SMTP_PORT
