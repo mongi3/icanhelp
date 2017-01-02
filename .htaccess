@@ -1,13 +1,32 @@
-
-# Don't allow acess to any *.sqlite files in directory tree
-<FilesMatch "\.(sqlite)$">
+# Don't allow access to any important files in directory tree
+<FilesMatch "\.(sqlite|py|pyc|txt|log)$">
  Order allow,deny
  Deny from all
 </FilesMatch>
 
+# Explicitly allow access to the main python file
+<FilesMatch "code\.py+$">
+ allow from all
+</FilesMatch>
+
+# No access to editor temp/backup files
+<Files ~ "(^#.*#|~|\.sw[op])$">
+ Order allow,deny
+ Deny from all
+</Files>
+
+
 # Doing CGI, but could also hook in other ways...
 Options +ExecCGI
 AddHandler cgi-script .py
+
+# Store the current location in an environment variable CWD
+# NOTE: this to prevent the user from having individually
+#       setting RewriteBase to the current path when setting
+#       up multiple instances.
+RewriteBase /
+RewriteCond $0#%{REQUEST_URI} ([^#]*)#(.*)\1$
+RewriteRule ^.*$ - [E=CWD:%2]
 
 # Force use of https
 RewriteEngine on
@@ -17,14 +36,6 @@ RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI}
 # Rewrite simple urls to submit to code.py
 # (as proxy so not apparent to user)
 # Conditions below are for statics that should not be rewriten to code.py
-RewriteEngine on
-RewriteBase /icanhelp/
 RewriteCond %{HTTPS} on
-RewriteCond %{REQUEST_URI} !^/icons
-RewriteCond %{REQUEST_URI} !^/static
-RewriteCond %{REQUEST_URI} !^/icanhelp/static
-RewriteCond %{REQUEST_URI} !^/favicon.ico$
-RewriteCond %{REQUEST_URI} !^/(.*)code.py
-RewriteRule ^(.*)$ code.py/$1 [PT]
-
-
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ %{ENV:CWD}code.py/$1 [PT]
