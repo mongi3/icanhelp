@@ -1,7 +1,7 @@
 $def with (title, message, link)
 
 <ul id="breadcrumb">
-	<li><a href="./" title="Home"><img src="$app_base('/static/images/home.gif')" alt="Home" class="home" /></a></li>
+	<li><a href="$app_base('/')" title="Home"><img src="$app_base('/static/images/home.gif')" alt="Home" class="home" /></a></li>
 	<li>Error</li>
 </ul>
 
@@ -12,7 +12,7 @@ $def with (title, message, link)
 			<div class="entry">
                 <p>$message</p>
                 $if link != None:
-                    <a href="./$link">Click to Continue</a>
+                    <a href="$app_base('/')$link">Click to Continue</a>
 			</div>
 		</div>
 	</div>

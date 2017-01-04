@@ -4,7 +4,7 @@ $ help_request_filled = True # this will get set to false later if an item is st
 
 
 <ul id="breadcrumb">
-	<li><a href="./" title="Home"><img src="$app_base('/static/images/home.gif')" alt="Home" class="home" /></a></li>
+	<li><a href="$app_base('/')" title="Home"><img src="$app_base('/static/images/home.gif')" alt="Home" class="home" /></a></li>
 	<li>$request.title</li>
 </ul>
 
@@ -36,20 +36,20 @@ $ help_request_filled = True # this will get set to false later if an item is st
                             $if utils.date_in_past(item.date):
                                 $ rowClass = 'inactive'
                             <tr class="$rowClass">
-                              <td><a href="./edititem/$item.id">(edit)</a></td>
+                              <td><a href="$app_base('/')edititem/$item.id">(edit)</a></td>
                               <td>$utils.convert_date(item.date)</td>
                               <td>$item.description</td>
                               <td>$item.helpName</td>
                               <td>$item.helpEmail</td>
                               <td>$item.helpPhone</td>
-                              <td><a href="./deleteitem/$item.id">(delete)</a></td>
+                              <td><a href="$app_base('/')deleteitem/$item.id">(delete)</a></td>
                               $if not item.helpName:
                                   $ help_request_filled = False
                             </tr>
                        </tbody>
                    </table>
                    <br/>
-                   <a href="./newitem/$request.id">Add new item</a><br/>
+                   <a href="$app_base('/')newitem/$request.id">Add new item</a><br/>
                 $else:
                    <table class="helpTable">
                        <thead>
@@ -69,7 +69,7 @@ $ help_request_filled = True # this will get set to false later if an item is st
                                           <td>Help provided</td>
                                       $else:
                                           $ help_request_filled = False
-                                          <td><a href="./helpsignup/$item.id">Click here to Help</a></td>
+                                          <td><a href="$app_base('/')helpsignup/$item.id">Click here to Help</a></td>
                                    </tr>
                        </tbody>
                    </table>
@@ -81,7 +81,7 @@ $ help_request_filled = True # this will get set to false later if an item is st
 
                 If you have any further questions, please contact: $contact.name<br/>
                 <br/>
-                <a href="./">See other help requests &gt;&gt;</a>
+                <a href="$app_base('/')">See other help requests &gt;&gt;</a>
 			</div>
 		</div>
 	</div>
@@ -95,8 +95,8 @@ $if admin:
 				<li>
 					<h2>Admin Menu</h2>
                     <ul>
-                        <li><a href="./edit/$request.id">Edit Help Request</a></li>
-                        <li><a href="./delete/$request.id">Delete Help Request</a></li>
+                        <li><a href="$app_base('/')edit/$request.id">Edit Help Request</a></li>
+                        <li><a href="$app_base('/')delete/$request.id">Delete Help Request</a></li>
                     </ul>
 				</li>
 			</ul>

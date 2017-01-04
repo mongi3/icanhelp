@@ -1,7 +1,7 @@
 $def with (item)
 
 <ul id="breadcrumb">
-	<li><a href="./" title="Home"><img src="$app_base('/static/images/home.gif')" alt="Home" class="home" /></a></li>
+	<li><a href="$app_base('/')" title="Home"><img src="$app_base('/static/images/home.gif')" alt="Home" class="home" /></a></li>
 	<li>Confirmation</li>
 </ul>
 
@@ -22,7 +22,7 @@ $def with (item)
                 </table>
                 <br/>
                 <p>You have been signed up to help.  If you provided an email, a confirmation will be sent shortly.  A reminder will also be emailed the day before.</p>
-                <a href="./view/$item.helpRequestId">Click to go to Help Request</a>
+                <a href="$app_base('/')view/$item.helpRequestId">Click to go to Help Request</a>
 			</div>
 		</div>
 	</div>
