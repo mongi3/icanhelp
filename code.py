@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+s#!/usr/bin/env python
 
 """ Using webpy 0.3 """
 import web
@@ -52,6 +52,8 @@ t_globals = {
     'session': session,
     'utils'  : utils,
     'model'  : model,
+    # form paths relative to basedir in templates
+    'app_base': lambda p: web.ctx.homepath[:-8] + p
 }
 render = web.template.render('templates', base='base', globals=t_globals)
 
