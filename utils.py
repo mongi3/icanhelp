@@ -8,7 +8,28 @@ from datetime import datetime, timedelta
 def convert_date(date_str):
     """Convert date from 'mm/dd/yyyy' to 'Jan 02, Sat' """
     return time.strftime('%b %d, %a', time.strptime(date_str,'%m/%d/%Y'))
-    
+
+def date_valid(date_str):
+    """Make sure date of valid mm/dd/yyyy or mm/dd/yy format"""
+    std_date_str = standardize_date(date_str)
+    return std_date_str is not None
+
+def standardize_date(date_str):
+    """standardize m/d/y format to MM/DD/YYYY"""
+    valid_formats = [
+        "%m/%d/%y",
+        "%m/%d/%Y",
+        "%m-%d-%y",
+        "%m-%d-%Y",
+        ]
+    for fmt in valid_formats:
+        try:
+            dt = datetime.strptime(date_str, fmt)
+            return dt.strftime("%m/%d/%Y")
+        except:
+            continue
+    return None
+
 def nl2br(s):
     """Converts newlines \n to HTML breaks.  This is used to web-ify
     textarea input data."""
