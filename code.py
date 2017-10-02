@@ -167,7 +167,7 @@ class Edit:
 
 class NewItem:
     form = web.form.Form(
-        web.form.Textbox('date', web.form.regexp(r'^(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])/(19|20)\d\d$', 'Must be in form mm/dd/yyyy'), size=8, description="Date:"),
+        web.form.Textbox('date', web.form.Validator("MM/DD/YYYY expected", utils.date_valid), size=8, description="Date:"),
         web.form.Textbox('description', web.form.notnull, size=30, description="Description:"),
         web.form.Textbox('count', web.form.regexp(r'^\d+$', 'Must be a number'), size=2, description="Number of Entries:", value='1'),
         web.form.Button('Done', type='submit')
@@ -195,7 +195,7 @@ class NewItem:
             post = model.get_post(post_id)
             return render.newitem(post, form)
         for idx in range(int(form.d.count)):
-            model.new_help_item(post_id, form.d.date, form.d.description)
+            model.new_help_item(post_id, utils.standardize_date(form.d.date), form.d.description)
         raise web.seeother('/view/%d' % post_id)
 
 
