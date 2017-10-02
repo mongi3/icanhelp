@@ -30,6 +30,9 @@ def standardize_date(date_str):
             continue
     return None
 
+def current_year_string():
+    return str(datetime.now().year)
+
 def nl2br(s):
     """Converts newlines \n to HTML breaks.  This is used to web-ify
     textarea input data."""
