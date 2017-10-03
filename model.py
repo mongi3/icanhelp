@@ -89,6 +89,13 @@ def get_contacts(id=None):
 def add_contact(username, passhash, name, email, phone):
     return db.insert('Contact', username=username, passhash=passhash, name=name, email=email, phone=phone)
 
+def rm_contact(contactId):
+    contactId = int(contactId)
+    for post in get_posts():
+        if post.contactId == contactId:
+            del_post(post.id)
+    return db.delete('Contact', where="id=$contactId", vars=locals())
+
 def update_contact(contactId, username, passhash, name, email, phone):
     return db.update('Contact', where="id=$contactId", vars=locals(), username=username, passhash=passhash, name=name, email=email, phone=phone)
 
@@ -112,7 +119,7 @@ def initDb():
        pass
    db = sqlite3.connect(DB_FILE)
    db.execute("""create table Contact
-                     (id        INTEGER PRIMARY KEY,
+                     (id        INTEGER PRIMARY KEY AUTOINCREMENT,
                       username  TEXT,
                       passhash  TEXT,
                       name      TEXT,
@@ -120,14 +127,14 @@ def initDb():
                       phone     TEXT
                       )""")
    db.execute("""create table HelpRequest
-                     (id         INTEGER PRIMARY KEY,
+                     (id         INTEGER PRIMARY KEY AUTOINCREMENT,
                       contactId  INTEGER,
                       title      TEXT,
                       details    TEXT,
                       FOREIGN KEY(contactId) REFERENCES Contact(id)
                       )""")
    db.execute("""create table HelpItem
-                     (id             INTEGER PRIMARY KEY,
+                     (id             INTEGER PRIMARY KEY AUTOINCREMENT,
                       helpRequestId  INTEGER,
                       date           TEXT,
                       description    TEXT,

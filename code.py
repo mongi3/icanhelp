@@ -33,6 +33,7 @@ urls = (
     '/helpconfirm/(\d+)', 'HelpConfirm',
     '/newadmin', 'NewAdmin',
     '/editadmin', 'EditAdmin',
+    '/rmadmin', 'RemoveAdmin',
 )
 
 app = web.application(urls, globals())
@@ -436,6 +437,31 @@ class EditAdmin:
             return render.editadmin(form)
         passhash = hashlib.md5(form.d.password).hexdigest()
         model.update_contact(session.userId, form.d.username, passhash, form.d.name, form.d.email, form.d.phone)
+        raise web.seeother('/')
+
+
+class RemoveAdmin:
+    
+    def gen_form(self):
+        form = web.form.Form(
+            web.form.Dropdown('admindropid', [(contact.id,contact.name) for contact in model.get_contacts()], web.form.notnull, size=5, description="Remove:"),
+            web.form.Button('Remove', type='submit')
+            )
+        return form
+        
+    def GET(self):
+        if not session.admin and session.userId == 1:
+            authorization_error()
+        form = self.gen_form()
+        return render.rmadmin(form)
+
+    def POST(self):
+        if not session.admin and session.userId == 1:
+            authorization_error()
+        form = self.gen_form()
+        if not form.validates():
+            return render.rmadmin(form)
+        model.rm_contact(form.d.admindropid)
         raise web.seeother('/')
 
 
