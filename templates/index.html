@@ -49,6 +49,8 @@ $if admin:
                         <li><a href="$app_base('/')new">New Help Request</a></li>
                         <li><a href="$app_base('/')editadmin">Edit Admin Data</a></li>
                         <li><a href="$app_base('/')newadmin">Add New Admin</a></li>
+                        $if session.userId == 1:
+                            <li><a href="$app_base('/')rmadmin">Remove Admin</a></li>
                         <li><a href="$app_base('/')logout">Logout</a></li>
                     </ul>
 				</li>
