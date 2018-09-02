@@ -29,17 +29,12 @@ web.config.smtp_starttls = True
 
 now = datetime.now()
 
-try:
-    offset_to_local = timedelta(seconds=config.DATE_UTC_TO_LOCAL_OFFSET_SEC)
-except AttributeError:
-    offset_to_local = timedelta(seconds=0)
-
 # Use database to find which items are due tomorrow
 tomorrow_items = []
 db = model.db
 for item in db.select('HelpItem'):
     item_time = datetime.strptime(item.date,'%m/%d/%Y')
-    t_delta = item_time - now + offset_to_local
+    t_delta = item_time - (now + utils.get_offset_td())
 #    print item.date,t_delta
     if timedelta(days=0) < t_delta < timedelta(days=1):
 #        print 'SEND EMAIL:',item.date,t_delta
@@ -102,7 +97,7 @@ Details can be found here:
 
     # Actually send the email
     print f, to, subject, msg
-#    web.sendmail(f,to,subject,msg)
+    web.sendmail(f,to,subject,msg)
 
 print '%d reminders sent %s' % (len(tomorrow_items), datetime.now())
 

@@ -4,7 +4,7 @@ This file contains utility functions for use by icanhelp and templates.
 
 import time
 from datetime import datetime, timedelta
-from config import DATE_MONTH_FIRST
+import config
 
 
 def convert_date(date_str):
@@ -18,7 +18,7 @@ def date_valid(date_str):
 
 def standardize_date(date_str):
     """standardize input datestring to MM/DD/YYYY for db storage"""
-    if DATE_MONTH_FIRST:
+    if config.DATE_MONTH_FIRST:
         valid_formats = [
             "%m/%d/%y",
             "%m/%d/%Y",
@@ -43,10 +43,17 @@ def standardize_date(date_str):
 
 def get_date_validator_string():
     """Returns proper string for failed form validation"""
-    if DATE_MONTH_FIRST:
+    if config.DATE_MONTH_FIRST:
         return 'MM/DD/YY'
     else:
         return 'DD/MM/YY'
+
+def get_offset_td():
+    try:
+        offset_to_local = config.DATE_UTC_TO_LOCAL_OFFSET_SEC
+    except AttributeError:
+        offset_to_local = 0
+    return timedelta(seconds=offset_to_local)
 
 def current_year_string():
     return str(datetime.now().year)
@@ -59,7 +66,7 @@ def nl2br(s):
 def date_in_past(date_str):
     """Returns True if the date_str (mm/dd/yyyy) is for a day prior 
     to today"""
-    now = datetime.now()
+    now = datetime.now() + get_offset_td()
     item_time = datetime.strptime(date_str,'%m/%d/%Y')
     if item_time-now < timedelta(days=-1):
         inPast = True
