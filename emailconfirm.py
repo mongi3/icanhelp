@@ -10,6 +10,7 @@ import web
 import model
 from datetime import datetime, timedelta
 import config
+import utils
 
 web.config.smtp_server = config.SMTP_SERVER
 web.config.smtp_port = config.SMTP_PORT
@@ -31,6 +32,7 @@ def sendConfirmationEmail(item_id):
     item.contactEmail = contact_data.email
     item.contactPhone = contact_data.phone
     item.url = "%s/view/%s" % (config.SITE_BASE, item.helpRequestId)
+    item.date = utils.convert_date(item.date)
 
     if item.helpEmail:
         f = web.config.smtp_username

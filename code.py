@@ -167,8 +167,9 @@ class Edit:
 
 
 class NewItem:
+    date_fmt_str = utils.get_date_validator_string()
     form = web.form.Form(
-        web.form.Textbox('date', web.form.Validator("MM/DD/YYYY expected", utils.date_valid), size=8, description="Date:"),
+        web.form.Textbox('date', web.form.Validator('%s expected' % date_fmt_str, utils.date_valid), size=8, description="Date (%s):" % date_fmt_str),
         web.form.Textbox('description', web.form.notnull, size=30, description="Description:"),
         web.form.Textbox('count', web.form.regexp(r'^\d+$', 'Must be a number'), size=2, description="Number of Entries:", value='1'),
         web.form.Button('Done', type='submit')
@@ -222,8 +223,9 @@ class DeleteItem:
 
 
 class EditItem:
+    date_fmt_str = utils.get_date_validator_string()
     form = web.form.Form(
-        web.form.Textbox('date', web.form.Validator("MM/DD/YYYY expected", utils.date_valid), size=8, description="Date:"),
+        web.form.Textbox('date', web.form.Validator('%s expected' % date_fmt_str, utils.date_valid), size=8, description="Date (%s):" % date_fmt_str),
         web.form.Textbox('description', web.form.notnull, size=30, description="Description:"),
         web.form.Textbox('helpName', size=30, description="Helper Name:"),
         web.form.Textbox('helpEmail', size=30, description="Helper Email:"),

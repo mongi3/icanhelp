@@ -14,7 +14,15 @@ except ImportError:
     #NOTE: you should copy these vars to "myconfig.py" and update
     #      for your own installation
     SITE_BASE = r'http://no_base_site_set_yet.com/icanhelp/'
-    
+
+    # Set false to use day/month/year convention
+    DATE_MONTH_FIRST = True
+    # Set offset from host machine to local time in seconds
+    #   used to send reminder emails appropriately
+    # Generally a server would be running with UTC time:
+    # eg) value for arizona = -7 hours = -7*3600 = -25200
+    DATE_UTC_TO_LOCAL_OFFSET_SEC = 0
+
     # SMTP Config (needed for sending emails)
     SMTP_SERVER = 'smtp.gmail.com'
     SMTP_PORT = 587

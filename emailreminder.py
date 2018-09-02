@@ -15,6 +15,7 @@ import web
 import model
 from datetime import datetime, timedelta
 import config
+import utils
 
 ### Setup app DB
 if not os.path.isfile(model.DB_FILE):
@@ -28,12 +29,17 @@ web.config.smtp_starttls = True
 
 now = datetime.now()
 
+try:
+    offset_to_local = timedelta(seconds=config.DATE_UTC_TO_LOCAL_OFFSET_SEC)
+except AttributeError:
+    offset_to_local = timedelta(seconds=0)
+
 # Use database to find which items are due tomorrow
 tomorrow_items = []
 db = model.db
 for item in db.select('HelpItem'):
     item_time = datetime.strptime(item.date,'%m/%d/%Y')
-    t_delta = item_time - now
+    t_delta = item_time - now + offset_to_local
 #    print item.date,t_delta
     if timedelta(days=0) < t_delta < timedelta(days=1):
 #        print 'SEND EMAIL:',item.date,t_delta
@@ -50,6 +56,7 @@ for item in tomorrow_items:
     item.contactEmail = contact_data.email
     item.contactPhone = contact_data.phone
     item.url = "%s/view/%s" % (config.SITE_BASE, item.helpRequestId)
+    item.date = utils.convert_date(item.date)
 
     if not item.helpName:
         # If the item doesn't have a name, no one is signed up.  Notify the
@@ -95,7 +102,7 @@ Details can be found here:
 
     # Actually send the email
     print f, to, subject, msg
-    web.sendmail(f,to,subject,msg)
+#    web.sendmail(f,to,subject,msg)
 
-
+print '%d reminders sent %s' % (len(tomorrow_items), datetime.now())
 
