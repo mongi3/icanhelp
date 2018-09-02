@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 def convert_date(date_str):
     """Convert date from 'mm/dd/yyyy' to 'Jan 02, Sat' """
-    return time.strftime('%b %d, %a', time.strptime(date_str,'%m/%d/%Y'))
+    return time.strftime('%d %b, %a', time.strptime(date_str,'%m/%d/%Y'))
 
 def date_valid(date_str):
     """Make sure date of valid mm/dd/yyyy or mm/dd/yy format"""
