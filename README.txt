@@ -1,32 +1,12 @@
 ============
 Simple Setup
 ============
-The easiest way to get up and running to try things out is by using a 
-tool called Vagrant (www.vagrantup.com) to setup a virtual machine.
 
-To setup a test environment in a virtual machine, do the following:
+With docker installed you can get up and running with a single command:
 
-1) install vagrant (ubuntu sudo apt-get install vagrant) or download off web (www.vagrantup.com)
-2) clone repository for bitbucket
-3) in base directory of release (contains Vagrantfile) issue command:
-   vagrant up  (this will provision and start VM)
-4) goto webbrowser and enter address: "localhost:8080/icanhelp"
-5) Code changes and updates can be made in the extracted icanhelp directory.
-   These source files are shared with the VM and should update.
-6) when done testing, feel free to tear down VM with command:
-   vagrant destroy
+  docker run -p 8080:8080 mongi3/icanhelp
 
-
-==============
-Advanced Setup
-==============
-Checkout the Vagrantfile and subsequent bootstrap.sh script for the 
-setups taken to setup the machine on your own server.  From there
-numerous configuration changes can be made to setup SSL security
-dynamicdns services if running on home servers etc.
-
-See notes below for additional pointers.
-
+Now if you visit localhost:8080 in your web browser you should see the site.
 
 ==========
 Background
@@ -70,21 +50,6 @@ could have their own postings for their own purposes.
 
 Below is some basic setup info to help those who may attempt to take this
 code and replicate something on their own.
-
-===========
-Environment
-===========
-
-I ran this on a linux home webserver running Ubuntu 8.04 Sever LTS
-I ran with apache web server and python 2.5.2
-
-I'd expect the code itself to run fine on any python version up through 2.7.
-
-I setup dynamic dns services so that my home webserver would be accessible
-at a simple unchanging url.
-
-I also setup a cronjob to run at 2AM and call the emailreminder.py script.  This
-script inspects the database for any events comming up and sends reminder emails.
 
 
 =============
