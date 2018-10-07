@@ -1,6 +1,6 @@
-============
-Simple Setup
-============
+# ICanHelp
+
+## Simple Setup
 
 With docker installed you can get up and running with a single command:
 
@@ -8,9 +8,56 @@ With docker installed you can get up and running with a single command:
 
 Now if you visit localhost:8080 in your web browser you should see the site.
 
-==========
-Background
-==========
+## Environment Variables
+
+There are other environment variables if you want to customize various things inside the docker container.
+
+If you want email confirmations and reminders to be sent, you must configure
+some environment variables appropriately:
+
+| Docker Environment Var. | Description |
+| ----------------------- | ----------- |
+| `-e SITE_BASE=<FQDN-for-host>`<br/> **Required** | Address to base of site used in emailed links. eg) `http://my_site.com/icanhelp/`
+| `-e SMTP_SERVER=<address>`<br/> **Recommended** *Default: smtp.gmail.com* | Must be set properly to send confirmation and reminder emails.
+| `-e SMTP_PORT=<portnum>`<br/> **Recommended** *Default: 587* | port for SMTP server
+| `-e SMTP_USER=<username>`<br/> **Recommended** | username for SMTP authentication
+| `-e SMTP_PASS=<password>`<br/> **Recommended** | password for SMTP authentication
+| `-e DATE_UTC_TO_LOCAL_OFFSET_SEC=<Offset>`<br/> **Recommended** *Default: UTC* | Set offset for your timezone so reminder emails are sent at proper time.  eg) arizona=UTC-7 = -7*3600=-25200
+
+In order to customize to local formats throughout the world:
+
+| Docker Environment Var. | Description |
+| ----------------------- | ----------- |
+| `-e DATE_MONTH_FIRST=<0,1>`<br/> *Optional* *Default: 1* | Set 0 for day to be first in date strings
+
+All together a command might look like the following:
+
+```
+docker run -d \
+       --name icanhelp \
+       -p 8080:8080 \
+       -e SITE_BASE=http://www.site.com/ \
+       -e SMTP_SERVER=smtp.gmail.com \
+       -e SMTP_USER=user@gmail.com \
+       -e SMTP_PASS=**** \
+       -e DATE_UTC_TO_LOCAL_OFFSET_SEC=-25200 \
+       -v /dir/for/icanhelp:/app/icanhelp/data \
+       --restart=unless-stopped \
+       mongi3/icanhelp:latest
+```
+
+Here is a rundown of the other arguments passed into the example `docker run`:
+
+| Docker Arguments | Description |
+| ---------------- | ----------- |
+| `-p 8080:8080`<br/> **Recommended** | Maps to host port 8080 from docker internal port 8080
+| `--restart=unless-stopped`<br/> **Recommended** | Automatically (re)starts on boot or in the event of a crash
+| `-v /dir/for/icanhelp:/app/icanhelp/data`<br/> **Recommended** | Volumes for your database and logs to persist changes across docker image updates
+| `--net=host`<br/> *Optional* | Alternative to `-p <port>:<port>` arguments (Cannot be used at same time as -p) if you don't run any other web application
+
+
+## Background
+
 icanhelp was a quick reaction program (read a few evenings) created to 
 aid my wife after she got called as a compassionate service leader at 
 church.  There is certainly a lot that could be improved for 
@@ -52,9 +99,8 @@ Below is some basic setup info to help those who may attempt to take this
 code and replicate something on their own.
 
 
-=============
-Items of Note
-=============
+## Items of Note
+
 In order for the confirmation (at signup) and reminder email scripts to work 
 you'll need to follow the instructions in config.py to provide your own stmp info.  
 For this site I created a gmail account and provided those credentials.
@@ -75,9 +121,7 @@ You should now have a db.sqlite file in the icanhelp directory.
 You'll also want to update the email weblinks to point to your instance's url...
 
 
-==============
-Using as Admin
-==============
+## Using as Admin
 
 The admin login page is just a hidden link at the bottom of the page.
 Click on the period in the copyright notice to go to the admin login page.
@@ -94,8 +138,3 @@ Any admin can create additional admin accounts.  Each admin however can only
 see postings that they have created.  The "admin" user has special rights
 however and is able to see all postings from other accounts.
 
--------------
-
-I'm sure there is more to tell but that's all I can think of at the moment...
-
--Jeff
