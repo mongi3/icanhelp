@@ -6,6 +6,8 @@ has signed up for a help request item.  If they did not provide an email address
 the contact will be sent an email notifying them of this event.
 """
 
+from __future__ import absolute_import, division, print_function
+
 import web
 import model
 from datetime import datetime, timedelta
@@ -21,7 +23,7 @@ web.config.smtp_starttls = True
 def sendConfirmationEmail(item_id):
     # don't even attempt if email config info has not been provided
     if not web.config.smtp_username:
-        print "WARNING: email user/password not configured.  Ignoring attempt to send confirmation email."
+        print("WARNING: email user/password not configured.  Ignoring attempt to send confirmation email.")
         return
 
     item = model.get_item(int(item_id))

@@ -14,3 +14,4 @@ COPY . /app
 ENTRYPOINT [ "python" ]
 
 CMD [ "code.py" ]
+

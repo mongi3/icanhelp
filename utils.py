@@ -2,6 +2,8 @@
 This file contains utility functions for use by icanhelp and templates.
 """
 
+from __future__ import absolute_import, division, print_function
+
 import time
 from datetime import datetime, timedelta
 import config
