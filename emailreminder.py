@@ -10,6 +10,8 @@ all help items that are due *the next day*.  If there a person has signed
 up to help, they will be emailed a reminder.
 """
 
+from __future__ import absolute_import, division, print_function
+
 import os
 import web
 import model
@@ -96,8 +98,8 @@ Details can be found here:
         %(url)s""" % item
 
     # Actually send the email
-    print f, to, subject, msg
+    print(f, to, subject, msg)
     web.sendmail(f,to,subject,msg)
 
-print '%d reminders sent %s' % (len(tomorrow_items), datetime.now())
+print('%d reminders sent %s' % (len(tomorrow_items), datetime.now()))
 

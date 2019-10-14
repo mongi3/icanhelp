@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import absolute_import, division, print_function
+
 """ Using webpy 0.3 """
 import web
 import model
@@ -425,7 +427,7 @@ class EditAdmin:
         if not session.admin:
             authorization_error()
         admin = model.get_contacts(session.userId)
-        #print admin
+        #print(admin)
         form = NewAdmin.form()
         form.fill(admin)
         return render.editadmin(form)
