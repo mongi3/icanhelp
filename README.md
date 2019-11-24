@@ -4,7 +4,7 @@
 
 With docker installed you can get up and running with a single command:
 
-  docker run -p 8080:8080 mongi3/icanhelp
+    docker run -p 8080:8080 mongi3/icanhelp
 
 Now if you visit localhost:8080 in your web browser you should see the site.
 
@@ -109,10 +109,12 @@ The site uses sqlite database to store information.  Before using you'll need
 to create the database file.  I've got a function to do this which you can
 run as follows:
 
+```
 cd icanhelp #wherever you put things
 python # start python shell
 import model # imports code in model.py
 model.initDb()
+```
 
 You should now have a db.sqlite file in the icanhelp directory.
 
@@ -129,8 +131,10 @@ Click on the period in the copyright notice to go to the admin login page.
 When you initialized the database above, a single user was created with the
 following credentials:
 
+```
 username: admin
 password: admin
+```
 
 You'll of course want to login as admin and change this to something different.
 
