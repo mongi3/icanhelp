@@ -1,2 +1,6 @@
--add ability to remove a helper (not just manually eliminating their 
-info) (ADMIN)
+- add ability to remove a helper (not just manually eliminating their info) (ADMIN)
+- setup vscode workspace for easy dev inside container
+- migrate to python3 base
+- improved date entry
+- add mobile style
+- improve documentation
