@@ -4,7 +4,7 @@
 
 With docker installed you can get up and running with a single command:
 
-    docker run -p 8080:8080 mongi3/icanhelp
+    docker run -p 8080:8080 ghcr.io/mongi3/icanhelp:master
 
 Now if you visit localhost:8080 in your web browser you should see the site.
 
@@ -43,7 +43,7 @@ docker run -d \
        -e DATE_UTC_TO_LOCAL_OFFSET_SEC=-25200 \
        -v /dir/for/icanhelp:/app/icanhelp/data \
        --restart=unless-stopped \
-       mongi3/icanhelp:latest
+       ghcr.io/mongi3/icanhelp:master
 ```
 
 Here is a rundown of the other arguments passed into the example `docker run`:

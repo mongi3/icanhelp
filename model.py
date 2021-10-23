@@ -28,12 +28,7 @@ def get_item(id):
 def get_items(post_id):
     """Returns all item data associated with a post in time sorted order."""
     item_data = db.select('HelpItem', where="helpRequestId=$post_id", vars=locals())
-    tmp_items = []
-    for item in item_data:
-        item_time = datetime.strptime(item.date,'%m/%d/%Y')
-        tmp_items.append((item_time,item))
-    tmp_items.sort()
-    sorted_items = [i[1] for i in tmp_items]
+    sorted_items = sorted(item_data, key=lambda x: x['date'])
     return sorted_items
 
 def get_contact_data(contact_id):

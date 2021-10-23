@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from __future__ import absolute_import, division, print_function
 
@@ -330,7 +330,7 @@ class Login:
         form = self.form()
         if not form.validates():
             return render.login(form)
-        pwdhash = hashlib.md5(form.d.password).hexdigest()
+        pwdhash = hashlib.md5(form.d.password.encode()).hexdigest()
         session.user = None
         for contact in model.get_contacts():
             if form.d.username == contact.username and pwdhash == contact.passhash:
@@ -416,7 +416,7 @@ class NewAdmin:
         form = self.form()
         if not form.validates():
             return render.newadmin(form)
-        passhash = hashlib.md5(form.d.password).hexdigest()
+        passhash = hashlib.md5(form.d.password.encode()).hexdigest()
         model.add_contact(form.d.username, passhash, form.d.name, form.d.email, form.d.phone)
         raise web.seeother('/')
 
@@ -439,7 +439,7 @@ class EditAdmin:
         form = NewAdmin.form()
         if not form.validates():
             return render.editadmin(form)
-        passhash = hashlib.md5(form.d.password).hexdigest()
+        passhash = hashlib.md5(form.d.password.encode()).hexdigest()
         model.update_contact(session.userId, form.d.username, passhash, form.d.name, form.d.email, form.d.phone)
         raise web.seeother('/')
 
